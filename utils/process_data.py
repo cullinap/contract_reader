@@ -118,7 +118,7 @@ class Process():
 
             return processed
 
-    def vectorize(self, OUTPUT_NAME, **kwargs):
+    def vectorize(self, **kwargs):
         '''
         provide:
          -vectorizor
@@ -129,7 +129,7 @@ class Process():
         '''
 
         pkl_file = './data/' + self.pkl_file_name
-        output_name = './data/' + OUTPUT_NAME
+        #output_name = './data/' + OUTPUT_NAME
 
         print('loading data...')
 
@@ -147,10 +147,17 @@ class Process():
             print('applying tfidf')
 
             tfidf = TfidfVectorizer(max_df=kwargs.get('max_df'), 
-                                     min_df=kwargs.get('min_df'))
+                                    min_df=kwargs.get('min_df'))
 
+            tfidf_ = tfidf.fit_transform(df_[0])
 
-            return tfidf.fit_transform(df_[0])
+            terms = tfidf.get_feature_names()
+
+            joblib.dump((tfidf_,terms),'./data/tfidf-output.pkl')
+
+            return tfidf_
+
+            #make this so if file exists return file else process
 
         elif kwargs.get('vectorizor') == 'bow':
 
