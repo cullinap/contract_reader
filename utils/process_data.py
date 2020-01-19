@@ -9,6 +9,9 @@ from nltk.corpus import stopwords
 from nltk.stem.snowball import SnowballStemmer
 from nltk import bigrams
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
+from sklearn.model_selection import GridSearchCV
+from sklearn.multiclass import OneVsRestClassifier
+from sklearn.naive_bayes import MultinomialNB
 from sklearn.externals import joblib
 import operator
 
@@ -25,8 +28,9 @@ class Process():
 	    takes:
 		-file: list of files in the directory
 		-path: path to the data folders
+
 	    '''
-        regex = '\n\n(?=\u2028|[A-Z-0-9])'
+        regex = '\n\n(?=\u2028|[A-Z-0-9])' #removed one \n
     
         try:
             return re.split(regex, 
@@ -54,14 +58,18 @@ class Process():
         '''
 
         stopwords_ = kwargs.get('stopwords')
+        cust_sw = kwargs.get('custom_sw')
         stemmer = kwargs.get('stemmer')
         ngrams = kwargs.get('ngrams')
 
         text = text.apply(gensim.utils.simple_preprocess, min_len=3)
         
         sw = set(stopwords.words(stopwords_))
+        custom_sw = set(cust_sw)
 
         if stopwords_: text = text.apply(lambda s: [w for w in s if w not in sw]) 
+
+        if custom_sw: text = text.apply(lambda s: [w for w in s if w not in custom_sw])
 
         if stemmer=='yes': text = text.apply(lambda s: [SnowballStemmer("english", ignore_stopwords=True).stem(w) for w in s])
 
@@ -118,6 +126,39 @@ class Process():
 
             return processed
 
+    def gridsearch(self, **kwargs):
+        '''
+        gridsearch for best params
+
+        '''
+        pkl_file = './data/' + self.pkl_file_name
+        #output_name = './data/' + OUTPUT_NAME
+
+        print('loading data...')
+
+        with open(pkl_file, 'rb') as handle:
+            processed = pickle.load(handle)
+
+        print('loaded...')
+
+        #create df for processing
+
+        df_ = pd.concat([processed[k] for k in processed.keys()],axis=0).reset_index().drop(['index'],axis=1)
+
+        parameters = {k: v for k,v in kwargs.items()}
+
+        pipeline = Pipeline([
+                        ('tfidf', TfidfVectorizer()),
+                        ('clf', OneVsRestClassifier(MultinomialNB(fit_prior=True, class_prior=None))),
+            ])
+
+        grid_search_tune = GridSearchCV(pipeline, parameters, cv=2, n_jobs=2, verbose=3)
+        grid_search_tune.fit(train_x, train_y)
+
+        print("Best parameters set:")
+        print(grid_search_tune.best_estimator_.steps)
+
+
     def vectorize(self, **kwargs):
         '''
         provide:
@@ -147,7 +188,9 @@ class Process():
             print('applying tfidf')
 
             tfidf = TfidfVectorizer(max_df=kwargs.get('max_df'), 
-                                    min_df=kwargs.get('min_df'))
+                                    min_df=kwargs.get('min_df'),
+                                    max_features=kwargs.get('max_features')
+                                )
 
             tfidf_ = tfidf.fit_transform(df_[0])
 

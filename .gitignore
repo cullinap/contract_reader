@@ -5,4 +5,11 @@ __pycache__
 *.csv
 *.pdf
 *.txt
+*.bin
+*.npy
+*.h5
+*.pkl
+**/*.pkl
+**/*.npy
+/data
 
