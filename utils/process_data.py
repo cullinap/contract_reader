@@ -1,6 +1,7 @@
 import re
 import os
 import pickle
+import numpy as np
 from tika import parser
 import pandas as pd
 import gensim
@@ -210,6 +211,53 @@ class Process():
                                   min_df=kwargs.get('min_df'))
 
             return bow.fit_transform(df_[0])
+
+    def top_tfidf_feats(self, top_n=25):
+        '''
+        top tfidf feats 
+        '''
+        (tfidf_,terms)=joblib.load('./data/tfidf-output.pkl')
+        row,features=tfidf_,terms
+
+        topn_ids = np.argsort(row)[::-1][:top_n]
+        top_feats = [(features(i),row(i)) for i in topn_ids]
+        df = pd.DataFrame(top_feats)
+        df.columns = ['feature','tfidf']
+        return df
+
+
+def preprocess(text, **kwargs):
+    '''
+    Basic NLP preprocessor
+    -removes stop words
+    -n-grams
+    -stem
+    -simple gensim preprocessor
+    '''
+
+    stopwords_ = kwargs.get('stopwords')
+    cust_sw = kwargs.get('custom_sw')
+    stemmer = kwargs.get('stemmer')
+    ngrams = kwargs.get('ngrams')
+
+    text = text.apply(gensim.utils.simple_preprocess, min_len=3)
+    
+    sw = set(stopwords.words(stopwords_))
+    custom_sw = set(cust_sw)
+
+    if stopwords_: text = text.apply(lambda s: [w for w in s if w not in sw]) 
+
+    if custom_sw: text = text.apply(lambda s: [w for w in s if w not in custom_sw])
+
+    if stemmer=='yes': text = text.apply(lambda s: [SnowballStemmer("english", ignore_stopwords=True).stem(w) for w in s])
+
+    if ngrams=='bigrams': 
+        text = text.apply(lambda s: ['_'.join(x) for x in nltk.bigrams(s)] + s)
+
+    elif ngrams=='trigrams':
+        text = text.apply(lambda s: ['_'.join(x) for x in nltk.trigrams(s)] + s)
+
+    return text
 
 
     
