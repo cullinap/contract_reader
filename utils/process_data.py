@@ -31,8 +31,11 @@ class Process():
 		-path: path to the data folders
 
 	    '''
+        # name this based on the role it performs
         regex = '\n\n(?=\u2028|[A-Z-0-9])' #removed one \n
     
+        # maybe use an if statement? 
+        # also don't like how this looks 
         try:
             return re.split(regex, 
 			[parser.from_file(path + file + '/' + doc) for doc in os.listdir(path + file)] 
@@ -49,6 +52,9 @@ class Process():
         return {f: self._strip(f, self.path) for f in self.file}
 
 
+    # this only takes dataframes 
+    # no idea how to get custom stopwords in this
+
     def preprocess(self, text: pd.Series, **kwargs):
         '''
         Basic NLP preprocessor
@@ -58,6 +64,9 @@ class Process():
         -simple gensim preprocessor
         '''
 
+        # this is me worrying about how to use kwargs
+        # there are no instructions on how to use this function
+        # 
         stopwords_ = kwargs.get('stopwords')
         cust_sw = kwargs.get('custom_sw')
         stemmer = kwargs.get('stemmer')
@@ -72,6 +81,9 @@ class Process():
 
         if custom_sw: text = text.apply(lambda s: [w for w in s if w not in custom_sw])
 
+        # should do if stemmer and make that true
+        # i could probably set this up so I give an option of bigrams or 
+        # trigrams
         if stemmer=='yes': text = text.apply(lambda s: [SnowballStemmer("english", ignore_stopwords=True).stem(w) for w in s])
 
         if ngrams=='bigrams': 
@@ -83,6 +95,7 @@ class Process():
         return text
 
 
+    # don't know what remove lines means 
     def remove_lines(self, OVERWRITE, vectorizor, **kwargs):
         '''
         iterates through the documents and removes line delimeter and makes pkl file
@@ -91,6 +104,7 @@ class Process():
 
         processor_val = {k: v for k,v in kwargs.items()}
 
+        # confusing use of logic 
         if os.path.exists(pkl_file) == False and OVERWRITE == True:
 
             print('cleaning pdf files...')
@@ -159,7 +173,7 @@ class Process():
         print("Best parameters set:")
         print(grid_search_tune.best_estimator_.steps)
 
-
+    # maybe put this up near preprocess
     def vectorize(self, **kwargs):
         '''
         provide:
@@ -225,7 +239,7 @@ class Process():
         df.columns = ['feature','tfidf']
         return df
 
-
+# old should get rid of this or atleast make it callable from class
 def preprocess(text, **kwargs):
     '''
     Basic NLP preprocessor
