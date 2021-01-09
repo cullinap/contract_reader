@@ -27,8 +27,8 @@ Consumer Finance credit card agreements: https://www.consumerfinance.gov/credit-
 Twitter data: pull from twitter using tweepy.
 
 Example notebooks:
-twitter_nmf.ipynb
-TC-W2V walkthough.ipynb
+twitter_nmf.ipynb <br>
+TC-W2V walkthough.ipynb <br>
 contract_reader.ipynb
 
 #### More info:
