@@ -1,4 +1,20 @@
-##### Credit Card Agreement Analyzer
+### Topic Modeling with NMF
+
+Quick start guide: 
+
+##### Find optimal cluster k value using TC-W2V:
+
+Use the following command to run NMF on your dataset:
+
+'''python
+python runnmf.py <filepath>
+'''
+
+The output will be a graph showing the optimal k value to cluster your text based on the NMF algorithm and topic coherence word2vec (TC-W2V)  
+
+Ensure the data is in csv format and the target column is named 'text'.
+
+##### Project Information
 
 The purpose of this project is to take a legal document, like a contract, model the topics and create a pipeline to tag parts of the document with a relevant label. This notebook will focus on the the preprocessing of the data, the topic modeling and the creation of the training set. Ultimately the code in this repo will be useful for people who want to understand a complex legal document such as a credit card agreement more clearly.
 
