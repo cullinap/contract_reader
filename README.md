@@ -14,11 +14,22 @@ The output will be a graph showing the optimal k value to cluster your text base
 
 Ensure the data is in csv format and the target column is named 'text'.
 
-##### Project Information
+### Project Information
 
-The purpose of this project is to take a legal document, like a contract, model the topics and create a pipeline to tag parts of the document with a relevant label. This notebook will focus on the the preprocessing of the data, the topic modeling and the creation of the training set. Ultimately the code in this repo will be useful for people who want to understand a complex legal document such as a credit card agreement more clearly.
+The purpose of this project is to take text data like twitter data or from a legal document like a contract and make a general purpose clustering app using non-negative matrix factorization (NMF). 
 
-The data comes from the following link: https://www.consumerfinance.gov/credit-cards/agreements/
+Example data:
+
+Contractual data comes from:
+Consumer Finance credit card agreements: https://www.consumerfinance.gov/credit-cards/agreements/
+Twitter data: pull from twitter using tweepy.
+
+Example notebooks:
+twitter_nmf.ipynb
+TC-W2V walkthough.ipynb
+contract_reader.ipynb
+
+#### More info:
 
 The Consumer Financial Protection Bureau (CFPB) collects credit card agreements from creditors on a quarterly basis and posts them at the link above. The CFPB organizes the data by putting each participating company in a directory and then collecting all the statements in a directory for each company. For Q4 of 2018 there are 652 companies and each company has on average 2-4 agreements. 
 
