@@ -6,7 +6,7 @@ Quick start guide:
 
 Use the following command to run NMF on your dataset:
 
-'''python
+'''
 python runnmf.py <filepath>
 '''
 
