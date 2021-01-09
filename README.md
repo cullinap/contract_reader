@@ -9,7 +9,7 @@ Use the following command to run NMF on your dataset:
 ```
 python runnmf.py <filepath>
 ```
-For more info on how NMF works please see ![NMF blog post](https://cullinap.github.io/data-science-nb/matrix%20factorization/2020/09/19/non-negative-matrix-factorization.html)
+For more info on how NMF works please see [NMF blog post](https://cullinap.github.io/data-science-nb/matrix%20factorization/2020/09/19/non-negative-matrix-factorization.html)
 
 The output will be a graph showing the optimal k value to cluster your text based on the NMF algorithm and topic coherence word2vec (TC-W2V)  
 
