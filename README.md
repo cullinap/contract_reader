@@ -6,9 +6,9 @@ Quick start guide:
 
 Use the following command to run NMF on your dataset:
 
-'''
+```
 python runnmf.py <filepath>
-'''
+```
 
 The output will be a graph showing the optimal k value to cluster your text based on the NMF algorithm and topic coherence word2vec (TC-W2V)  
 
