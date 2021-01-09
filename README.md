@@ -12,6 +12,8 @@ python runnmf.py <filepath>
 
 The output will be a graph showing the optimal k value to cluster your text based on the NMF algorithm and topic coherence word2vec (TC-W2V)  
 
+![alt text](http://example.png)
+
 Ensure the data is in csv format and the target column is named 'text'.
 
 ### Project Information
