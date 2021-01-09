@@ -12,7 +12,7 @@ python runnmf.py <filepath>
 
 The output will be a graph showing the optimal k value to cluster your text based on the NMF algorithm and topic coherence word2vec (TC-W2V)  
 
-![alt text](https://github.com/cullinap/contract_reader/blob/master/Figure_1.png)
+![alt text](http://example.png)
 
 Ensure the data is in csv format and the target column is named 'text'.
 
@@ -43,3 +43,7 @@ For *most* people contract documents are not fun to read because they are usuall
 This repo will enable you to insert a credit card agreement pdf and output labeled sections of the documents to make it easier to read the document. Please see example.ipynb for a walkthrough on how to use this repo. 
 
 The notebook contract_reader.ipynb has further details on how the repo is constructed.
+
+
+###### references:
+An analysis of the coherence of descriptors in topic modeling Derek O’Callaghan et. al 
